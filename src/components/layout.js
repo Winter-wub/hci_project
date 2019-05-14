@@ -9,6 +9,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles(theme => ({
 	root: {
 		marginTop: '50px',
+		flexGrow: 1,
 	},
 }));
 
