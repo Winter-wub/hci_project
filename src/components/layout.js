@@ -1,5 +1,5 @@
-import React from 'reactn';
-import { makeStyles, ThemeProvider } from '@material-ui/styles';
+import React from 'react';
+import { makeStyles, ThemeProvider, install } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -11,14 +11,20 @@ const useStyles = makeStyles(theme => ({
 		marginTop: '50px',
 		flexGrow: 1,
 	},
+	app: {
+		background: '#FF5252',
+	},
 }));
 
 function Layout({ children }) {
+	install();
 	const classes = useStyles();
 	return (
-		<ThemeProvider theme={theme}>
-			<div className={classes.root}>{children}</div>
-		</ThemeProvider>
+		<div className={classes.app}>
+			<ThemeProvider theme={theme}>
+				<div className={classes.root}>{children}</div>
+			</ThemeProvider>
+		</div>
 	);
 }
 

@@ -5,9 +5,9 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { GridView, GridItem } from '../components/grid';
 import Card from '../components/card';
+import ArrowRightButton from '../components/arrowRightButton';
 import history from '../utils/history';
 
 const useStyles = makeStyles(theme => ({
@@ -62,11 +62,7 @@ function Login() {
 		<GridView>
 			<GridItem>
 				<Card
-					actionComponent={
-						<Fab color="primary" onClick={() => handleSignIn()}>
-							<ArrowForwardIcon fontSize="default" />
-						</Fab>
-					}>
+					actionComponent={<ArrowRightButton onClick={() => handleSignIn()} />}>
 					<GridView>
 						<GridItem>
 							<Typography variant="h5" component="h3">

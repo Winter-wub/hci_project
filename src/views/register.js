@@ -5,10 +5,11 @@ import Fab from '@material-ui/core/Fab';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/EmailRounded';
 import LockIcon from '@material-ui/icons/Lock';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import TextField from '../components/textFieldWithIcon';
+import ArrowRightButton from '../components/arrowRightButton';
+import Checkbox from '../components/checkbox';
 
 function Register() {
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
@@ -82,14 +83,7 @@ function Register() {
 		<GridView>
 			<GridItem>
 				<Card
-					actionComponent={
-						<Fab color="primary">
-							<ArrowForwardIcon
-								fontSize="default"
-								onClick={() => handleSignUp()}
-							/>
-						</Fab>
-					}>
+					actionComponent={<ArrowRightButton onClick={() => handleSignUp()} />}>
 					<Typography variant="h5" component="h3">
 						Sign Up
 					</Typography>
@@ -121,6 +115,7 @@ function Register() {
 							setUserInfo({ ...userInfo, password: e.target.value });
 						}}
 					/>
+					<Checkbox label="Agree Term of Services" />
 				</Card>
 			</GridItem>
 			<GridItem>

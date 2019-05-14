@@ -24,7 +24,6 @@ function TextFieldWithIcon({
 				<Grid item>
 					<TextField
 						error={error}
-						id="input-with-icon-grid"
 						onChange={onChange}
 						label={label}
 						type={type}

@@ -2,6 +2,7 @@ import React, { setGlobal } from 'reactn';
 import { Router, Route } from 'react-router-dom';
 import Layout from './components/layout';
 import Login from './views/login';
+import Register from './views/register';
 import history from './utils/history';
 
 setGlobal({
@@ -14,11 +15,12 @@ setGlobal({
 
 function App() {
 	return (
-		<Router history={history}>
-			<Layout>
-				<Route path="/" component={Login} />
-			</Layout>
-		</Router>
+		<Layout>
+			<Router history={history}>
+				<Route path="/" exact component={Login} />
+				<Route path="/signup" component={Register} />
+			</Router>
+		</Layout>
 	);
 }
 
