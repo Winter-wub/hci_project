@@ -1,26 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { setGlobal } from 'reactn';
+import { Router, Route } from 'react-router-dom';
+import Layout from './components/layout';
+import Login from './views/login';
+import history from './utils/history';
+
+setGlobal({
+	isLogin: false,
+	userInfo: {
+		username: '',
+		password: '',
+	},
+});
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Router history={history}>
+			<Layout>
+				<Route path="/" component={Login} />
+			</Layout>
+		</Router>
+	);
 }
 
 export default App;
