@@ -3,12 +3,12 @@ import Validator from 'validator';
 import { makeStyles } from '@material-ui/styles/';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import { GridView, GridItem } from '../components/grid';
 import Card from '../components/card';
+import history from '../utils/history';
 
 const useStyles = makeStyles(theme => ({
 	textField: {
@@ -67,13 +67,13 @@ function Login() {
 							<ArrowForwardIcon fontSize="default" />
 						</Fab>
 					}>
-					<Grid container spacing={16} alignContent="center" direction="column">
-						<Grid item>
+					<GridView>
+						<GridItem>
 							<Typography variant="h5" component="h3">
 								Sign In
 							</Typography>
-						</Grid>
-						<Grid item>
+						</GridItem>
+						<GridItem>
 							<TextField
 								error={!validator.username}
 								className={classes.textField}
@@ -89,8 +89,8 @@ function Login() {
 									checkValidationField('email', e.target.value);
 								}}
 							/>
-						</Grid>
-						<Grid item>
+						</GridItem>
+						<GridItem>
 							<TextField
 								error={!validator.password}
 								className={classes.textField}
@@ -106,45 +106,45 @@ function Login() {
 									checkValidationField('password', e.target.value);
 								}}
 							/>
-						</Grid>
-						<Grid item>
+						</GridItem>
+						<GridItem>
 							<Button
 								variant="text"
 								color="secondary"
 								onClick={() => handleForgetPassword()}>
 								Forgot Password!
 							</Button>
-						</Grid>
-					</Grid>
+						</GridItem>
+					</GridView>
 				</Card>
 			</GridItem>
 			<GridItem>
 				<Card>
-					<Grid container spacing={16} alignContent="center" direction="column">
-						<Grid item>
+					<GridView>
+						<GridItem>
 							<Typography variant="h5" component="h5">
 								Or
 							</Typography>
-						</Grid>
-						<Grid item>
+						</GridItem>
+						<GridItem>
 							<Fab variant="extended" margin="normal">
 								Continue with Facebook
 							</Fab>
-						</Grid>
-						<Grid item>
+						</GridItem>
+						<GridItem>
 							<Fab variant="extended" margin="normal">
 								Continue with Google
 							</Fab>
-						</Grid>
-						<Grid item>
+						</GridItem>
+						<GridItem>
 							<Button
 								variant="text"
 								color="secondary"
-								onClick={() => handleForgetPassword()}>
+								onClick={() => history.push('/signup')}>
 								Sign Up
 							</Button>
-						</Grid>
-					</Grid>
+						</GridItem>
+					</GridView>
 				</Card>
 			</GridItem>
 		</GridView>
