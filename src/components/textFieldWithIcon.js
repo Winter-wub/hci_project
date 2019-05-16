@@ -15,11 +15,12 @@ function TextFieldWithIcon({
 	error,
 	type,
 	onChange = () => {},
+	variant="outlined"
 }) {
 	const classes = useStyles();
 	return (
 		<div className={classes.margin}>
-			<Grid container spacing={8} alignItems="flex-end">
+			<Grid container spacing={16} alignItems="center" justify="center">
 				<Grid item>{IconComponent}</Grid>
 				<Grid item>
 					<TextField
@@ -27,6 +28,7 @@ function TextFieldWithIcon({
 						onChange={onChange}
 						label={label}
 						type={type}
+						variant={variant}
 					/>
 				</Grid>
 			</Grid>
