@@ -1,8 +1,8 @@
 {
 	"name": "hci",
 	"version": "0.1.0",
-	"homepage": "https://stratosblur.github.io/hci_project",
-	"private": true,
+	"homepage": "https://hciproject-e2f47.firebaseapp.com/",
+	"private": false,
 	"dependencies": {
 		"@material-ui/core": "^3.9.3",
 		"@material-ui/icons": "^3.0.2",
@@ -22,7 +22,7 @@
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"deploy": "gh-pages -d docs"
+		"deploy": "firebase deploy"
 	},
 	"eslintConfig": {
 		"extends": "react-app"
