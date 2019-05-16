@@ -7,7 +7,7 @@ const theme = createMuiTheme({
 	typography: { useNextVariants: true },
 	palette: {
 		primary: { main: '#FD297B' },
-		secondary: { main: '#FF5864' },
+		secondary: { main: '#424242' },
 		default: { main: '#FF655B' },
 	},
 });
@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 function Layout({ children }) {
 	const classes = useStyles();
 	return (
-		<div className={classes.app}>
+		<div className={classes.root}>
 			<ThemeProvider theme={theme}>
 				<div className={classes.root}>{children}</div>
 			</ThemeProvider>

@@ -2,6 +2,7 @@ import React from 'react';
 import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/styles/';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -18,13 +19,22 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-function ArrowRightButton({ onClick = () => {} }) {
+function ArrowRightButton({ onClick = () => {}, disabled = false }) {
 	const classes = useStyles();
 	return (
-		<Fab className={classes.button} onClick={onClick}>
+		<Fab disabled={disabled} className={classes.button} onClick={onClick}>
 			<ArrowForwardIcon className={classes.icon} fontSize="default" />
 		</Fab>
 	);
 }
 
-export default ArrowRightButton;
+function ArrowLeftButton({ onClick = () => {}, disabled = false }) {
+	const classes = useStyles();
+	return (
+		<Fab disabled={disabled} className={classes.button} onClick={onClick}>
+			<ArrowBackIcon className={classes.icon} fontSize="default" />
+		</Fab>
+	);
+}
+
+export { ArrowRightButton, ArrowLeftButton };

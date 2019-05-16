@@ -9,7 +9,7 @@ import {
 } from 'react-social-login-buttons';
 import { GridView, GridItem } from '../components/grid';
 import Card from '../components/card';
-import ArrowRightButton from '../components/arrowRightButton';
+import { ArrowRightButton } from '../components/arrow';
 import history from '../utils/history';
 
 const useStyles = makeStyles(theme => ({

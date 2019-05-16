@@ -8042,7 +8042,7 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
-prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2:
+prop-types@>=15.5.8, prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8266,6 +8266,13 @@ react-event-listener@^0.6.2:
     "@babel/runtime" "^7.2.0"
     prop-types "^15.6.0"
     warning "^4.0.1"
+
+react-image-crop@^7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/react-image-crop/-/react-image-crop-7.0.2.tgz#b044e701163e74577ac3c233c878a0d9049f5f40"
+  integrity sha512-SPZTepiNRTzCu420UzaxUpLfK8K4UCkG1IpYHtspYCjYzYMQcqGvyOpzwq/P6VqMgMhqRm53JEexEkGPFafMXA==
+  dependencies:
+    prop-types ">=15.5.8"
 
 react-is@^16.6.0, react-is@^16.6.3, react-is@^16.7.0, react-is@^16.8.1, react-is@^16.8.4:
   version "16.8.6"

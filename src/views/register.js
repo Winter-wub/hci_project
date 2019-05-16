@@ -10,9 +10,10 @@ import LockIcon from '@material-ui/icons/Lock';
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import TextField from '../components/textFieldWithIcon';
-import ArrowRightButton from '../components/arrowRightButton';
+import { ArrowRightButton } from '../components/arrow';
 import Checkbox from '../components/checkbox';
 import GoBackButton from '../components/goBackButton';
+import history from '../utils/history';
 
 function Register() {
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
@@ -27,6 +28,7 @@ function Register() {
 	const handleSignUp = () => {
 		if (!Object.values(validator).includes(false)) {
 			setLogin(true);
+			history.push('/edit?mode=first');
 		} else {
 			setLogin(false);
 			alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง');
