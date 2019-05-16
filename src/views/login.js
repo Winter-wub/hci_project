@@ -1,10 +1,12 @@
 import React, { useGlobal, useState } from 'reactn';
 import Validator from 'validator';
 import { makeStyles } from '@material-ui/styles/';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
-import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
+import {
+	FacebookLoginButton,
+	GoogleLoginButton,
+} from 'react-social-login-buttons';
 import { GridView, GridItem } from '../components/grid';
 import Card from '../components/card';
 import ArrowRightButton from '../components/arrowRightButton';
@@ -62,20 +64,18 @@ function Login() {
 		<GridView>
 			<GridItem>
 				<Card
+					title="Sign In"
 					actionComponent={<ArrowRightButton onClick={() => handleSignIn()} />}>
 					<GridView>
 						<GridItem>
-							<Typography variant="h5" component="h3">
-								Sign In
-							</Typography>
-						</GridItem>
-						<GridItem>
 							<TextField
+								variant="outlined"
 								error={!validator.username}
 								className={classes.textField}
 								margin="normal"
 								label="Email"
 								type="email"
+								autoFocus
 								value={userInfo.username}
 								onChange={e => {
 									setUserInfo({
@@ -88,6 +88,7 @@ function Login() {
 						</GridItem>
 						<GridItem>
 							<TextField
+								variant="outlined"
 								error={!validator.password}
 								className={classes.textField}
 								margin="normal"
@@ -104,10 +105,7 @@ function Login() {
 							/>
 						</GridItem>
 						<GridItem>
-							<Button
-								variant="text"
-								color="secondary"
-								onClick={() => handleForgetPassword()}>
+							<Button onClick={() => handleForgetPassword()}>
 								Forgot Password!
 							</Button>
 						</GridItem>
@@ -115,30 +113,16 @@ function Login() {
 				</Card>
 			</GridItem>
 			<GridItem>
-				<Card>
+				<Card title="Or">
 					<GridView>
 						<GridItem>
-							<Typography variant="h5" component="h5">
-								Or
-							</Typography>
+							<FacebookLoginButton />
 						</GridItem>
 						<GridItem>
-							<Fab variant="extended" margin="normal">
-								Continue with Facebook
-							</Fab>
+							<GoogleLoginButton />
 						</GridItem>
 						<GridItem>
-							<Fab variant="extended" margin="normal">
-								Continue with Google
-							</Fab>
-						</GridItem>
-						<GridItem>
-							<Button
-								variant="text"
-								color="secondary"
-								onClick={() => history.push('/signup')}>
-								Sign Up
-							</Button>
+							<Button onClick={() => history.push('/signup')}>Sign Up</Button>
 						</GridItem>
 					</GridView>
 				</Card>

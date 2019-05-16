@@ -1,13 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import { makeStyles } from '@material-ui/styles/';
-
-const useStyles = makeStyles(theme => ({
-	margin: {
-		margin: theme.spacing.unit,
-	},
-}));
 
 function TextFieldWithIcon({
 	IconComponent,
@@ -15,15 +8,16 @@ function TextFieldWithIcon({
 	error,
 	type,
 	onChange = () => {},
-	variant="outlined"
+	variant = 'outlined',
+	autoFocus,
 }) {
-	const classes = useStyles();
 	return (
-		<div className={classes.margin}>
-			<Grid container spacing={16} alignItems="center" justify="center">
+		<div>
+			<Grid container spacing={8} alignItems="center">
 				<Grid item>{IconComponent}</Grid>
 				<Grid item>
 					<TextField
+						autoFocus={autoFocus}
 						error={error}
 						onChange={onChange}
 						label={label}

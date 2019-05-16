@@ -1,7 +1,9 @@
 import React, { useGlobal, useState } from 'reactn';
 import Validator from 'validator';
-import Typography from '@material-ui/core/Typography';
-import Fab from '@material-ui/core/Fab';
+import {
+	FacebookLoginButton,
+	GoogleLoginButton,
+} from 'react-social-login-buttons';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/EmailRounded';
 import LockIcon from '@material-ui/icons/Lock';
@@ -10,6 +12,7 @@ import Card from '../components/card';
 import TextField from '../components/textFieldWithIcon';
 import ArrowRightButton from '../components/arrowRightButton';
 import Checkbox from '../components/checkbox';
+import GoBackButton from '../components/goBackButton';
 
 function Register() {
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
@@ -83,58 +86,59 @@ function Register() {
 		<GridView>
 			<GridItem>
 				<Card
-					actionComponent={<ArrowRightButton onClick={() => handleSignUp()} />}>
-					<Typography variant="h5" component="h3">
-						Sign Up
-					</Typography>
-					<TextField
-						error={!validator.name}
-						label="Name"
-						IconComponent={<AccountIcon />}
-						onChange={e => {
-							validtion('name', e.target.value);
-							setUserInfo({ ...userInfo, username: e.target.value });
-						}}
-					/>
-					<TextField
-						error={!validator.email}
-						label="Email"
-						IconComponent={<EmailIcon />}
-						onChange={e => {
-							validtion('email', e.target.value);
-							setUserInfo({ ...userInfo, email: e.target.value });
-						}}
-					/>
-					<TextField
-						error={!validator.password}
-						type="password"
-						label="Password"
-						IconComponent={<LockIcon />}
-						onChange={e => {
-							validtion('password', e.target.value);
-							setUserInfo({ ...userInfo, password: e.target.value });
-						}}
-					/>
-					<Checkbox label="Agree Term of Services" />
+					title="Sign Up"
+					actionComponent={<ArrowRightButton onClick={() => handleSignUp()} />}
+					cardHeaderActionComponent={<GoBackButton />}>
+					<GridView>
+						<GridItem>
+							<TextField
+								error={!validator.name}
+								label="Name"
+								autoFocus
+								IconComponent={<AccountIcon />}
+								onChange={e => {
+									validtion('name', e.target.value);
+									setUserInfo({ ...userInfo, username: e.target.value });
+								}}
+							/>
+						</GridItem>
+						<GridItem>
+							<TextField
+								error={!validator.email}
+								label="Email"
+								IconComponent={<EmailIcon />}
+								onChange={e => {
+									validtion('email', e.target.value);
+									setUserInfo({ ...userInfo, email: e.target.value });
+								}}
+							/>
+						</GridItem>
+						<GridItem>
+							<TextField
+								error={!validator.password}
+								type="password"
+								label="Password"
+								IconComponent={<LockIcon />}
+								onChange={e => {
+									validtion('password', e.target.value);
+									setUserInfo({ ...userInfo, password: e.target.value });
+								}}
+							/>
+						</GridItem>
+						<GridItem>
+							<Checkbox label="Agree Term of Services" />
+						</GridItem>
+					</GridView>
 				</Card>
 			</GridItem>
 			<GridItem>
-				<Card>
+				<Card title="Or">
 					<GridView>
 						<GridItem>
-							<Typography variant="h5" component="h3">
-								Or
-							</Typography>
+							<FacebookLoginButton />
 						</GridItem>
 						<GridItem>
-							<Fab variant="extended" margin="normal">
-								Sign Up with Google
-							</Fab>
-						</GridItem>
-						<GridItem>
-							<Fab variant="extended" margin="normal">
-								Sign Up with Facebook
-							</Fab>
+							<GoogleLoginButton />
 						</GridItem>
 					</GridView>
 				</Card>
