@@ -17,12 +17,25 @@ const useStyles = makeStyles(theme => ({
 	icon: {
 		color: 'white',
 	},
+	buttonDisable: {
+		background:
+			'linear-gradient(to bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%)',
+		border: 0,
+		borderRadius: '50%',
+		boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+		color: 'white',
+		height: 60,
+		padding: '0 30px',
+	},
 }));
 
 function ArrowRightButton({ onClick = () => {}, disabled = false }) {
 	const classes = useStyles();
 	return (
-		<Fab disabled={disabled} className={classes.button} onClick={onClick}>
+		<Fab
+			disabled={disabled}
+			className={!disabled ? classes.button : classes.buttonDisable}
+			onClick={onClick}>
 			<ArrowForwardIcon className={classes.icon} fontSize="default" />
 		</Fab>
 	);
@@ -31,7 +44,10 @@ function ArrowRightButton({ onClick = () => {}, disabled = false }) {
 function ArrowLeftButton({ onClick = () => {}, disabled = false }) {
 	const classes = useStyles();
 	return (
-		<Fab disabled={disabled} className={classes.button} onClick={onClick}>
+		<Fab
+			disabled={disabled}
+			className={!disabled ? classes.button : classes.buttonDisable}
+			onClick={onClick}>
 			<ArrowBackIcon className={classes.icon} fontSize="default" />
 		</Fab>
 	);

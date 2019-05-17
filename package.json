@@ -1,7 +1,7 @@
 {
 	"name": "hci",
 	"version": "0.1.0",
-	"homepage": "https://hciproject-e2f47.firebaseapp.com/",
+	"license": "MIT",
 	"private": false,
 	"dependencies": {
 		"@material-ui/core": "^3.9.3",

@@ -1,5 +1,5 @@
 import React, { useGlobal, useState } from 'reactn';
-// import Validator from 'validator';
+import Validator from 'validator';
 import { makeStyles } from '@material-ui/styles';
 import queryString from 'qs';
 import Button from '@material-ui/core/Button';
@@ -33,95 +33,82 @@ const useStyles = makeStyles(theme => ({
 
 function FirstTimeEdit() {
 	const classes = useStyles();
-	const [step, setStep] = useState(1);
+	const [step, setStep] = useState(0);
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
 
-	// const [validator, setValidator] = useState({
-	// 	sex: false,
-	// 	name: false,
-	// 	university: false,
-	// 	display: false,
-	// });
+	const [validator, setValidator] = useState({
+		sex: false,
+		phone: false,
+		university: false,
+		display: false,
+	});
 
 	const handleUpdate = () => {
-		// if (!Object.values(validator).includes(false)) {
-		history.push('/edit');
-		// } else {
-		// 	alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง');
-		// }
+		if (!Object.values(validator).includes(false)) {
+			history.push('/edit');
+		} else {
+			alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง');
+		}
 	};
 
-	// const validation = (key, value) => {
-	// 	switch (key) {
-	// 		case 1: {
-	// 			if (userInfo.sex) {
-	// 				setValidator({
-	// 					...validator,
-	// 					sex: true,
-	// 				});
-	// 			} else {
-	// 				setValidator({
-	// 					...validator,
-	// 					sex: false,
-	// 				});
-	// 			}
-	// 			break;
-	// 		}
-	// 		case 2: {
-	// 			if (
-	// 				Validator.isLength(value, {
-	// 					key1: { length: { is: 10 } },
-	// 					key2: {
-	// 						length: { minimum: 10 },
-	// 						key3: { length: { maximum: 10 } },
-	// 					},
-	// 				})
-	// 			) {
-	// 				setValidator({
-	// 					...validator,
-	// 					email: true,
-	// 				});
-	// 			} else {
-	// 				setValidator({
-	// 					...validator,
-	// 					email: false,
-	// 				});
-	// 			}
-	// 			break;
-	// 		}
-	// 		case 3: {
-	// 			if (!Validator.isEmpty(value)) {
-	// 				setValidator({
-	// 					...validator,
-	// 					password: true,
-	// 				});
-	// 			} else {
-	// 				setValidator({
-	// 					...validator,
-	// 					password: false,
-	// 				});
-	// 			}
-	// 			break;
-	// 		}
-	// 		case 4: {
-	// 			if (!Validator.isEmpty(value)) {
-	// 				setValidator({
-	// 					...validator,
-	// 					password: true,
-	// 				});
-	// 			} else {
-	// 				setValidator({
-	// 					...validator,
-	// 					password: false,
-	// 				});
-	// 			}
-	// 			break;
-	// 		}
-	// 		default:
-	// 			break;
-	// 	}
-	// };
-
+	const validation = (key, value) => {
+		switch (key) {
+			case 0: {
+				setValidator({
+					...validator,
+					sex: true,
+				});
+				break;
+			}
+			case 1: {
+				if (
+					Validator.isNumeric(value) &&
+					Validator.isLength(value, { min: 10, max: 10 })
+				) {
+					setValidator({
+						...validator,
+						phone: true,
+					});
+				} else {
+					setValidator({
+						...validator,
+						phone: false,
+					});
+				}
+				break;
+			}
+			case 2: {
+				if (!Validator.isEmpty(value)) {
+					setValidator({
+						...validator,
+						university: true,
+					});
+				} else {
+					setValidator({
+						...validator,
+						university: false,
+					});
+				}
+				break;
+			}
+			case 3: {
+				if (!Validator.isEmpty(value)) {
+					setValidator({
+						...validator,
+						display: true,
+					});
+				} else {
+					setValidator({
+						...validator,
+						display: false,
+					});
+				}
+				break;
+			}
+			default:
+				break;
+		}
+	};
 	const CardModify = ({ title, children }) => (
 		<Card
 			cardHeaderActionComponent={<GoBackButton />}
@@ -129,14 +116,15 @@ function FirstTimeEdit() {
 				<GridView direction="row" spacing={8}>
 					<GridItem>
 						<ArrowLeftButton
-							disabled={step === 1}
-							onClick={() => setStep(step - 1)}
+							disabled={step === 0}
+							onClick={() => setStep(step)}
 						/>
 					</GridItem>
 					<GridItem>
 						<ArrowRightButton
+							disabled={!Object.values(validator)[step]}
 							onClick={() => {
-								if (step < 4) {
+								if (step < 3) {
 									setStep(step + 1);
 								} else {
 									handleUpdate();
@@ -158,7 +146,10 @@ function FirstTimeEdit() {
 					<Button
 						className={classes.button}
 						variant="contained"
-						onClick={() => setUserInfo({ ...userInfo, sex: 'female' })}
+						onClick={() => {
+							validation(0, '');
+							setUserInfo({ ...userInfo, sex: 'female' });
+						}}
 						color={userInfo.sex === 'female' ? 'primary' : 'secondary'}>
 						Woman
 					</Button>
@@ -167,7 +158,10 @@ function FirstTimeEdit() {
 					<Button
 						className={classes.button}
 						variant="contained"
-						onClick={() => setUserInfo({ ...userInfo, sex: 'male' })}
+						onClick={() => {
+							validation(0, '');
+							setUserInfo({ ...userInfo, sex: 'male' });
+						}}
 						color={userInfo.sex === 'male' ? 'primary' : 'secondary'}>
 						Man
 					</Button>
@@ -175,7 +169,6 @@ function FirstTimeEdit() {
 			</GridView>
 		</CardModify>
 	);
-
 	const PhoneNumberEdit = () => (
 		<CardModify
 			title="Phone Number"
@@ -186,7 +179,10 @@ function FirstTimeEdit() {
 						autoFocus
 						label="Phone no."
 						value={userInfo.phone}
-						onChange={e => setUserInfo({ ...userInfo, phone: e.target.value })}
+						onChange={e => {
+							validation(1, e.target.value);
+							setUserInfo({ ...userInfo, phone: e.target.value });
+						}}
 						variant="outlined"
 					/>
 				</GridItem>
@@ -206,9 +202,10 @@ function FirstTimeEdit() {
 							<Select
 								autoFocus
 								value={userInfo.university}
-								onChange={e =>
-									setUserInfo({ ...userInfo, university: e.target.value })
-								}
+								onChange={e => {
+									validation(2, e.target.value);
+									setUserInfo({ ...userInfo, university: e.target.value });
+								}}
 								input={<FilledInput />}>
 								<MenuItem value="">
 									<em>None</em>
@@ -233,11 +230,12 @@ function FirstTimeEdit() {
 				cardHeaderActionComponent={<GoBackButton />}>
 				<GridView>
 					<GridItem>
-						{userInfo.display.length <= 0 && (
+						{!userInfo.display && (
 							<input
 								accept="image/*"
 								type="file"
 								onChange={e => {
+									validation(3, e.target.value);
 									const reader = new FileReader();
 									reader.readAsDataURL(e.target.files[0]);
 									reader.onloadend = function(e) {
@@ -252,11 +250,18 @@ function FirstTimeEdit() {
 									<img
 										className={classes.previewImage}
 										src={userInfo.display}
-										alt=""
+										alt="Display"
 									/>
 								</GridItem>
 								<GridItem>
-									<Button color="primary">Change</Button>
+									<Button
+										color="primary"
+										onClick={() => {
+											setUserInfo({ ...userInfo, display: null });
+											validation(3, '');
+										}}>
+										Change
+									</Button>
 								</GridItem>
 							</GridView>
 						)}
@@ -270,10 +275,10 @@ function FirstTimeEdit() {
 		<GridView>
 			<GridItem>
 				<GridView>
-					{step === 1 && <Sex />}
-					{step === 2 && <PhoneNumberEdit />}
-					{step === 3 && <UniversityEdit />}
-					{step === 4 && <PictureChoose />}
+					{step === 0 && <Sex />}
+					{step === 1 && <PhoneNumberEdit />}
+					{step === 2 && <UniversityEdit />}
+					{step === 3 && <PictureChoose />}
 				</GridView>
 			</GridItem>
 		</GridView>
