@@ -1,20 +1,21 @@
-import React, { useGlobal, useState } from 'reactn';
-import Validator from 'validator';
-import { makeStyles } from '@material-ui/styles';
+import React, { useGlobal } from 'reactn';
 import queryString from 'qs';
+import { makeStyles } from '@material-ui/styles';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FilledInput from '@material-ui/core/FilledInput';
-import MenuItem from '@material-ui/core/MenuItem';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AssignmenIcon from '@material-ui/icons/Assignment';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Typography from '@material-ui/core/Typography';
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import GoBackButton from '../components/goBackButton';
-import { ArrowRightButton, ArrowLeftButton } from '../components/arrow';
-import history from '../utils/history';
-import universities from '../assets/universities.json';
+import Setup from './setup';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -31,266 +32,78 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-function FirstTimeEdit() {
-	const classes = useStyles();
-	const [step, setStep] = useState(0);
+function ProfileEditor() {
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
+	const classes = useStyles();
 
-	const [validator, setValidator] = useState({
-		sex: false,
-		phone: false,
-		university: false,
-		display: false,
-	});
-
-	const handleUpdate = () => {
-		if (!Object.values(validator).includes(false)) {
-			history.push('/edit');
-		} else {
-			alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง');
-		}
-	};
-
-	const validation = (key, value) => {
-		switch (key) {
-			case 0: {
-				setValidator({
-					...validator,
-					sex: true,
-				});
-				break;
-			}
-			case 1: {
-				if (
-					Validator.isNumeric(value) &&
-					Validator.isLength(value, { min: 10, max: 10 })
-				) {
-					setValidator({
-						...validator,
-						phone: true,
-					});
-				} else {
-					setValidator({
-						...validator,
-						phone: false,
-					});
-				}
-				break;
-			}
-			case 2: {
-				if (!Validator.isEmpty(value)) {
-					setValidator({
-						...validator,
-						university: true,
-					});
-				} else {
-					setValidator({
-						...validator,
-						university: false,
-					});
-				}
-				break;
-			}
-			case 3: {
-				if (!Validator.isEmpty(value)) {
-					setValidator({
-						...validator,
-						display: true,
-					});
-				} else {
-					setValidator({
-						...validator,
-						display: false,
-					});
-				}
-				break;
-			}
-			default:
-				break;
-		}
-	};
-	const CardModify = ({ title, children }) => (
-		<Card
-			cardHeaderActionComponent={<GoBackButton />}
-			actionComponent={
-				<GridView direction="row" spacing={8}>
-					<GridItem>
-						<ArrowLeftButton
-							disabled={step === 0}
-							onClick={() => setStep(step)}
-						/>
-					</GridItem>
-					<GridItem>
-						<ArrowRightButton
-							disabled={!Object.values(validator)[step]}
-							onClick={() => {
-								if (step < 3) {
-									setStep(step + 1);
-								} else {
-									handleUpdate();
-								}
-							}}
-						/>
-					</GridItem>
-				</GridView>
-			}
-			title={title}>
-			{children}
-		</Card>
-	);
-
-	const Sex = () => (
-		<CardModify title="What are you looking for">
-			<GridView>
-				<GridItem>
-					<Button
-						className={classes.button}
-						variant="contained"
-						onClick={() => {
-							validation(0, '');
-							setUserInfo({ ...userInfo, sex: 'female' });
-						}}
-						color={userInfo.sex === 'female' ? 'primary' : 'secondary'}>
-						Woman
-					</Button>
-				</GridItem>
-				<GridItem>
-					<Button
-						className={classes.button}
-						variant="contained"
-						onClick={() => {
-							validation(0, '');
-							setUserInfo({ ...userInfo, sex: 'male' });
-						}}
-						color={userInfo.sex === 'male' ? 'primary' : 'secondary'}>
-						Man
-					</Button>
-				</GridItem>
-			</GridView>
-		</CardModify>
-	);
-	const PhoneNumberEdit = () => (
-		<CardModify
-			title="Phone Number"
-			cardHeaderActionComponent={<GoBackButton />}>
-			<GridView>
-				<GridItem>
-					<TextField
-						autoFocus
-						label="Phone no."
-						value={userInfo.phone}
-						onChange={e => {
-							validation(1, e.target.value);
-							setUserInfo({ ...userInfo, phone: e.target.value });
-						}}
-						variant="outlined"
-					/>
-				</GridItem>
-			</GridView>
-		</CardModify>
-	);
-
-	const UniversityEdit = () => {
-		return (
-			<CardModify
-				title="University"
-				cardHeaderActionComponent={<GoBackButton />}>
+	return (
+		<GridView>
+			<GridItem>
 				<GridView>
-					<GridItem>
-						<FormControl variant="filled" className={classes.formControl}>
-							<InputLabel>University</InputLabel>
-							<Select
-								autoFocus
-								value={userInfo.university}
-								onChange={e => {
-									validation(2, e.target.value);
-									setUserInfo({ ...userInfo, university: e.target.value });
-								}}
-								input={<FilledInput />}>
-								<MenuItem value="">
-									<em>None</em>
-								</MenuItem>
-								{universities.map((data, index) => (
-									<MenuItem key={index} value={data.university}>
-										{data.university}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
-					</GridItem>
-				</GridView>
-			</CardModify>
-		);
-	};
-
-	const PictureChoose = () => {
-		return (
-			<CardModify
-				title="Show your face"
-				cardHeaderActionComponent={<GoBackButton />}>
-				<GridView>
-					<GridItem>
-						{!userInfo.display && (
-							<input
-								accept="image/*"
-								type="file"
-								onChange={e => {
-									validation(3, e.target.value);
-									const reader = new FileReader();
-									reader.readAsDataURL(e.target.files[0]);
-									reader.onloadend = function(e) {
-										setUserInfo({ ...userInfo, display: reader.result });
-									};
-								}}
-							/>
-						)}
-						{userInfo.display && (
-							<GridView>
+					<AppBar position="static" color="default">
+						<Toolbar>
+							<GridView direction="row" justify="flex-start">
 								<GridItem>
-									<img
-										className={classes.previewImage}
-										src={userInfo.display}
-										alt="Display"
-									/>
+									<GoBackButton />
 								</GridItem>
 								<GridItem>
-									<Button
-										color="primary"
-										onClick={() => {
-											setUserInfo({ ...userInfo, display: null });
-											validation(3, '');
-										}}>
-										Change
-									</Button>
+									<Typography variant="h6" color="inherit">
+										Profile
+									</Typography>
 								</GridItem>
 							</GridView>
-						)}
-					</GridItem>
-				</GridView>
-			</CardModify>
-		);
-	};
-
-	return (
-		<GridView>
-			<GridItem>
-				<GridView>
-					{step === 0 && <Sex />}
-					{step === 1 && <PhoneNumberEdit />}
-					{step === 2 && <UniversityEdit />}
-					{step === 3 && <PictureChoose />}
-				</GridView>
-			</GridItem>
-		</GridView>
-	);
-}
-
-function ProfileEditor() {
-	return (
-		<GridView>
-			<GridItem>
-				<GridView>
-					<Card />
+						</Toolbar>
+						<GridView>
+							<GridItem>
+								<Avatar
+									alt="Preview Display"
+									src={userInfo.display}
+									className={classes.previewImage}
+								/>
+							</GridItem>
+							<GridItem>
+								<Typography variant="h5">
+									{userInfo.username}({userInfo.age})
+								</Typography>
+							</GridItem>
+							<GridItem>
+								<Typography variant="h6" component="p">
+									{userInfo.bio}
+								</Typography>
+							</GridItem>
+							<GridItem>
+								<GridView direction="row">
+									<GridItem>
+										<Button color="primary" variant="contained">
+											Settings
+										</Button>
+									</GridItem>
+									<GridItem>
+										<Button color="primary" variant="contained">
+											Edit Profile
+										</Button>
+									</GridItem>
+								</GridView>
+							</GridItem>
+						</GridView>
+						<GridView />
+					</AppBar>
+					<Card>
+						<List component="nav">
+							<ListItem button>
+								<ListItemIcon>
+									<AssignmenIcon />
+								</ListItemIcon>
+								<ListItemText primary="ข้อตกลงการใช้งาน" />
+							</ListItem>
+							<ListItem button>
+								<ListItemIcon>
+									<ExitToAppIcon />
+								</ListItemIcon>
+								<ListItemText primary="ออกจากระบบ" />
+							</ListItem>
+						</List>
+					</Card>
 				</GridView>
 			</GridItem>
 		</GridView>
@@ -302,7 +115,7 @@ function ProfileEdit({ location: { search } }) {
 	const mode = qs['?mode'];
 	switch (mode) {
 		case 'first':
-			return <FirstTimeEdit />;
+			return <Setup />;
 		default:
 			return <ProfileEditor />;
 	}

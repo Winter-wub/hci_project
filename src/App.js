@@ -9,12 +9,14 @@ import history from './utils/history';
 setGlobal({
 	isLogin: false,
 	userInfo: {
-		username: '',
+		username: 'Prachayawut Sirisuth',
 		password: '',
 		sex: '',
 		university: '-',
 		phone: '',
 		display: '',
+		age: 22,
+		bio: '',
 	},
 });
 

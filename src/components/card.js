@@ -36,7 +36,7 @@ function CardComponent({
 		<Card className={classes.card}>
 			<CardHeader
 				className={classes.cardHeader}
-				action={cardHeaderActionComponent}
+				avatar={cardHeaderActionComponent}
 				title={title}
 				subheader={subtitle}
 			/>
