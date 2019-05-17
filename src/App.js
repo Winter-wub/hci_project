@@ -3,7 +3,8 @@ import { Router, Route } from 'react-router-dom';
 import Layout from './components/layout';
 import Login from './views/login';
 import Register from './views/register';
-import ProfileEdit from './views/profileEdit';
+import profileMenu from './views/profileMenu';
+import profileSettings from './views/profileEdit';
 import history from './utils/history';
 
 setGlobal({
@@ -11,12 +12,14 @@ setGlobal({
 	userInfo: {
 		username: 'Prachayawut Sirisuth',
 		password: '',
-		sex: '',
+		interestSex: '',
 		university: '-',
 		phone: '',
 		display: '',
 		age: 22,
 		bio: '',
+		jobTitle: '',
+		company: '',
 	},
 });
 
@@ -26,7 +29,8 @@ function App() {
 			<Router history={history}>
 				<Route path="/" exact component={Login} />
 				<Route path="/signup" component={Register} />
-				<Route path="/edit" component={ProfileEdit} />
+				<Route path="/setup" component={profileMenu} />
+				<Route path="/edit" component={profileSettings} />
 			</Router>
 		</Layout>
 	);

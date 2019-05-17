@@ -45,7 +45,7 @@ function Setup() {
 
 	const handleUpdate = () => {
 		if (!Object.values(validator).includes(false)) {
-			history.push('/edit');
+			history.push('/setup');
 		} else {
 			alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง');
 		}
@@ -148,9 +148,9 @@ function Setup() {
 						variant="contained"
 						onClick={() => {
 							validation(0, '');
-							setUserInfo({ ...userInfo, sex: 'female' });
+							setUserInfo({ ...userInfo, interestSex: 'female' });
 						}}
-						color={userInfo.sex === 'female' ? 'primary' : 'secondary'}>
+						color={userInfo.interestSex === 'female' ? 'primary' : 'secondary'}>
 						Woman
 					</Button>
 				</GridItem>
@@ -160,9 +160,9 @@ function Setup() {
 						variant="contained"
 						onClick={() => {
 							validation(0, '');
-							setUserInfo({ ...userInfo, sex: 'male' });
+							setUserInfo({ ...userInfo, interestSex: 'male' });
 						}}
-						color={userInfo.sex === 'male' ? 'primary' : 'secondary'}>
+						color={userInfo.interestSex === 'male' ? 'primary' : 'secondary'}>
 						Man
 					</Button>
 				</GridItem>

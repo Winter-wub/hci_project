@@ -3,11 +3,14 @@ import { makeStyles } from '@material-ui/styles/';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import CardHeader from '@material-ui/core/CardHeader';
+import Grid from '@material-ui/core/Grid';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
 	card: {
-		padding: theme.spacing.unit * 2,
+		paddingBottom: theme.spacing.unit * 2,
 		textAlign: 'center',
 		color: theme.palette.text.secondary,
 		minWidth: 500,
@@ -16,11 +19,7 @@ const useStyles = makeStyles(theme => ({
 	},
 	cardActions: {
 		float: 'right',
-	},
-	cardHeader: {
-		action: {
-			float: 'left',
-		},
+		padding: theme.spacing.unit * 2,
 	},
 }));
 
@@ -29,17 +28,32 @@ function CardComponent({
 	actionComponent,
 	cardHeaderActionComponent,
 	title = '',
-	subtitle = '',
+	titlejustify = 'flex-start',
+	titleAlignItems = 'center',
+	disabledHeader = 'false',
 }) {
 	const classes = useStyles();
 	return (
 		<Card className={classes.card}>
-			<CardHeader
-				className={classes.cardHeader}
-				avatar={cardHeaderActionComponent}
-				title={title}
-				subheader={subtitle}
-			/>
+			{disabledHeader && (
+				<AppBar position="static" color="default">
+					<Toolbar>
+						<Grid
+							container
+							direction="row"
+							spacing={8}
+							justify={titlejustify}
+							alignItems={titleAlignItems}>
+							<Grid item>{cardHeaderActionComponent}</Grid>
+							<Grid item>
+								<Typography variant="h6" color="inherit">
+									{title}
+								</Typography>
+							</Grid>
+						</Grid>
+					</Toolbar>
+				</AppBar>
+			)}
 			<CardContent>{children}</CardContent>
 			<CardActions className={classes.cardActions}>
 				{actionComponent}

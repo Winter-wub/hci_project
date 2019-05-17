@@ -28,7 +28,7 @@ function Register() {
 	const handleSignUp = () => {
 		if (!Object.values(validator).includes(false)) {
 			setLogin(true);
-			history.push('/edit?mode=first');
+			history.push('/setup?mode=first');
 		} else {
 			setLogin(false);
 			alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง');

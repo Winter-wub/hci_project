@@ -1,124 +1,99 @@
-import React, { useGlobal } from 'reactn';
-import queryString from 'qs';
-import { makeStyles } from '@material-ui/styles';
-import Avatar from '@material-ui/core/Avatar';
+import React, { useGlobal, useState } from 'reactn';
 import Button from '@material-ui/core/Button';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import AssignmenIcon from '@material-ui/icons/Assignment';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Typography from '@material-ui/core/Typography';
+import history from '../utils/history';
+import TextFieldWithIcon from '../components/textFieldWithIcon';
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import GoBackButton from '../components/goBackButton';
-import Setup from './setup';
+import Avatar from '../components/avatar';
 
-const useStyles = makeStyles(theme => ({
-	button: {
-		width: '200px',
-	},
-	formControl: {
-		margin: theme.spacing.unit,
-		minWidth: 120,
-	},
-	previewImage: {
-		height: '150px',
-		width: '150px',
-		borderRadius: '50%',
-	},
-}));
-
-function ProfileEditor() {
+function ProfileEdit() {
+	const [isChangeDis, setIsChangeDis] = useState(false);
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
-	const classes = useStyles();
-
 	return (
 		<GridView>
 			<GridItem>
-				<GridView>
-					<AppBar position="static" color="default">
-						<Toolbar>
-							<GridView direction="row" justify="flex-start">
+				<Card
+					title="Edit your profile"
+					cardHeaderActionComponent={
+						<GoBackButton
+							onChange={() => {
+								history.goBack();
+							}}
+						/>
+					}>
+					<GridView>
+						<GridItem>
+							<GridView>
 								<GridItem>
-									<GoBackButton />
+									<Avatar />
 								</GridItem>
 								<GridItem>
-									<Typography variant="h6" color="inherit">
-										Profile
-									</Typography>
+									{!isChangeDis && (
+										<Button
+											color="primary"
+											onClick={() => setIsChangeDis(true)}>
+											Change Display
+										</Button>
+									)}
+									{isChangeDis && (
+										<React.Fragment>
+											<input
+												accept="image/*"
+												type="file"
+												onChange={e => {
+													const reader = new FileReader();
+													reader.readAsDataURL(e.target.files[0]);
+													reader.onloadend = function(e) {
+														setUserInfo({
+															...userInfo,
+															display: reader.result,
+														});
+													};
+												}}
+											/>
+											<Button
+												color="primary"
+												onClick={() => setIsChangeDis(false)}>
+												Cancel
+											</Button>
+										</React.Fragment>
+									)}
 								</GridItem>
 							</GridView>
-						</Toolbar>
-						<GridView>
-							<GridItem>
-								<Avatar
-									alt="Preview Display"
-									src={userInfo.display}
-									className={classes.previewImage}
-								/>
-							</GridItem>
-							<GridItem>
-								<Typography variant="h5">
-									{userInfo.username}({userInfo.age})
-								</Typography>
-							</GridItem>
-							<GridItem>
-								<Typography variant="h6" component="p">
-									{userInfo.bio}
-								</Typography>
-							</GridItem>
-							<GridItem>
-								<GridView direction="row">
-									<GridItem>
-										<Button color="primary" variant="contained">
-											Settings
-										</Button>
-									</GridItem>
-									<GridItem>
-										<Button color="primary" variant="contained">
-											Edit Profile
-										</Button>
-									</GridItem>
-								</GridView>
-							</GridItem>
-						</GridView>
-						<GridView />
-					</AppBar>
-					<Card>
-						<List component="nav">
-							<ListItem button>
-								<ListItemIcon>
-									<AssignmenIcon />
-								</ListItemIcon>
-								<ListItemText primary="ข้อตกลงการใช้งาน" />
-							</ListItem>
-							<ListItem button>
-								<ListItemIcon>
-									<ExitToAppIcon />
-								</ListItemIcon>
-								<ListItemText primary="ออกจากระบบ" />
-							</ListItem>
-						</List>
-					</Card>
-				</GridView>
+						</GridItem>
+						<GridItem>
+							<TextFieldWithIcon
+								label="About me"
+								value={userInfo.bio}
+								onChange={e =>
+									setUserInfo({ ...userInfo, bio: e.target.value })
+								}
+							/>
+						</GridItem>
+						<GridItem>
+							<TextFieldWithIcon
+								label="Job Title"
+								value={userInfo.jobTitle}
+								onChange={e =>
+									setUserInfo({ ...userInfo, jobTitle: e.target.value })
+								}
+							/>
+						</GridItem>
+						<GridItem>
+							<TextFieldWithIcon
+								label="Company"
+								value={userInfo.company}
+								onChange={e =>
+									setUserInfo({ ...userInfo, company: e.target.value })
+								}
+							/>
+						</GridItem>
+					</GridView>
+				</Card>
 			</GridItem>
 		</GridView>
 	);
-}
-
-function ProfileEdit({ location: { search } }) {
-	const qs = queryString.parse(search);
-	const mode = qs['?mode'];
-	switch (mode) {
-		case 'first':
-			return <Setup />;
-		default:
-			return <ProfileEditor />;
-	}
 }
 
 export default ProfileEdit;
