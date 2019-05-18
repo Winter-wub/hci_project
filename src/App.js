@@ -6,6 +6,7 @@ import Register from './views/register';
 import profileMenu from './views/profileMenu';
 import profileSettings from './views/profileEdit';
 import Settings from './views/settings';
+import Main from './views/main';
 import history from './utils/history';
 
 setGlobal({
@@ -30,11 +31,12 @@ function App() {
 	return (
 		<Layout>
 			<Router history={history}>
-				<Route path="/" exact component={Login} />
+				<Route path="/login" exact component={Login} />
 				<Route path="/signup" component={Register} />
 				<Route path="/setup" component={profileMenu} />
 				<Route path="/edit" component={profileSettings} />
 				<Route path="/setting" component={Settings} />
+				<Route path="/" exact component={Main} />
 			</Router>
 		</Layout>
 	);
