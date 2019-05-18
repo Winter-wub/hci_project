@@ -3,9 +3,9 @@ import IconButton from '@material-ui/core/IconButton';
 import LeftArrowIcon from '@material-ui/icons/ArrowBack';
 import history from '../utils/history';
 
-function GobackButton({ action = () => history.goBack() }) {
+function GobackButton({ disabled = false, action = () => history.goBack() }) {
 	return (
-		<IconButton onClick={action}>
+		<IconButton disabled={disabled} onClick={action}>
 			<LeftArrowIcon />
 		</IconButton>
 	);

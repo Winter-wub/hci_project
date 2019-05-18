@@ -5,21 +5,24 @@ import Login from './views/login';
 import Register from './views/register';
 import profileMenu from './views/profileMenu';
 import profileSettings from './views/profileEdit';
+import Settings from './views/settings';
 import history from './utils/history';
 
 setGlobal({
 	isLogin: false,
 	userInfo: {
-		username: 'Prachayawut Sirisuth',
+		username: '',
 		password: '',
 		interestSex: '',
 		university: '-',
 		phone: '',
 		display: '',
-		age: 22,
+		age: 20,
 		bio: '',
 		jobTitle: '',
 		company: '',
+		distance: 5,
+		interestAge: 20,
 	},
 });
 
@@ -31,6 +34,7 @@ function App() {
 				<Route path="/signup" component={Register} />
 				<Route path="/setup" component={profileMenu} />
 				<Route path="/edit" component={profileSettings} />
+				<Route path="/setting" component={Settings} />
 			</Router>
 		</Layout>
 	);

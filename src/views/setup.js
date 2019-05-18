@@ -4,25 +4,16 @@ import { makeStyles } from '@material-ui/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
-import FilledInput from '@material-ui/core/FilledInput';
-import MenuItem from '@material-ui/core/MenuItem';
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import GoBackButton from '../components/goBackButton';
 import { ArrowRightButton, ArrowLeftButton } from '../components/arrow';
 import history from '../utils/history';
-import universities from '../assets/universities.json';
+import PlaceSelect from '../components/placeSelect';
 
 const useStyles = makeStyles(theme => ({
 	button: {
 		width: '200px',
-	},
-	formControl: {
-		margin: theme.spacing.unit,
-		minWidth: 120,
 	},
 	previewImage: {
 		height: '150px',
@@ -197,26 +188,14 @@ function Setup() {
 				cardHeaderActionComponent={<GoBackButton />}>
 				<GridView>
 					<GridItem>
-						<FormControl variant="filled" className={classes.formControl}>
-							<InputLabel>University</InputLabel>
-							<Select
-								autoFocus
-								value={userInfo.university}
-								onChange={e => {
-									validation(2, e.target.value);
-									setUserInfo({ ...userInfo, university: e.target.value });
-								}}
-								input={<FilledInput />}>
-								<MenuItem value="">
-									<em>None</em>
-								</MenuItem>
-								{universities.map((data, index) => (
-									<MenuItem key={index} value={data.university}>
-										{data.university}
-									</MenuItem>
-								))}
-							</Select>
-						</FormControl>
+						<PlaceSelect
+							autoFocus
+							onChange={e => {
+								validation(2, e.target.value);
+								setUserInfo({ ...userInfo, university: e.target.value });
+							}}
+							value={userInfo.university}
+						/>
 					</GridItem>
 				</GridView>
 			</CardModify>

@@ -10,6 +10,7 @@ function TextFieldWithIcon({
 	onChange = () => {},
 	variant = 'outlined',
 	autoFocus,
+	value,
 }) {
 	return (
 		<div>
@@ -23,6 +24,7 @@ function TextFieldWithIcon({
 						label={label}
 						type={type}
 						variant={variant}
+						value={value}
 					/>
 				</Grid>
 			</Grid>

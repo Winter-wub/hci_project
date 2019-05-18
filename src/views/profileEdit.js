@@ -18,7 +18,7 @@ function ProfileEdit() {
 					cardHeaderActionComponent={
 						<GoBackButton
 							onChange={() => {
-								history.goBack();
+								history.push('/setup');
 							}}
 						/>
 					}>
@@ -50,6 +50,7 @@ function ProfileEdit() {
 															display: reader.result,
 														});
 													};
+													setIsChangeDis(false);
 												}}
 											/>
 											<Button
@@ -61,6 +62,15 @@ function ProfileEdit() {
 									)}
 								</GridItem>
 							</GridView>
+						</GridItem>
+						<GridItem>
+							<TextFieldWithIcon
+								label="Age"
+								value={userInfo.age}
+								onChange={e =>
+									setUserInfo({ ...userInfo, age: e.target.value })
+								}
+							/>
 						</GridItem>
 						<GridItem>
 							<TextFieldWithIcon

@@ -16,6 +16,7 @@ import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import GoBackButton from '../components/goBackButton';
 import Setup from './setup';
+import history from '../utils/history';
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -74,12 +75,18 @@ function ProfileEditor() {
 							<GridItem>
 								<GridView direction="row">
 									<GridItem>
-										<Button color="primary" variant="contained">
+										<Button
+											color="primary"
+											variant="contained"
+											onClick={() => history.push('/setting')}>
 											Settings
 										</Button>
 									</GridItem>
 									<GridItem>
-										<Button color="primary" variant="contained">
+										<Button
+											color="primary"
+											variant="contained"
+											onClick={() => history.push('/edit')}>
 											Edit Profile
 										</Button>
 									</GridItem>
