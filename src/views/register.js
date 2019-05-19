@@ -14,6 +14,8 @@ import { ArrowRightButton } from '../components/arrow';
 import Checkbox from '../components/checkbox';
 import GoBackButton from '../components/goBackButton';
 import history from '../utils/history';
+import firebase from '../utils/firebase';
+const firestore = firebase.firestore();
 
 function Register() {
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
@@ -25,13 +27,21 @@ function Register() {
 		password: false,
 	});
 
-	const handleSignUp = () => {
-		if (!Object.values(validator).includes(false)) {
+	const isExistsEmail = async () => {
+		const docs = await firestore
+			.collection('Users')
+			.where('email', '==', userInfo.email)
+			.get();
+		return docs.size > 0 ? false : true;
+	};
+
+	const handleSignUp = async () => {
+		if ((await isExistsEmail()) && !Object.values(validator).includes(false)) {
 			setLogin(true);
 			history.push('/setup?mode=first');
 		} else {
 			setLogin(false);
-			alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง');
+			alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง หรือ Email ใช้งานไปแล้ว');
 		}
 	};
 
@@ -89,7 +99,9 @@ function Register() {
 			<GridItem>
 				<Card
 					title="Sign Up"
-					actionComponent={<ArrowRightButton onClick={() => handleSignUp()} />}
+					actionComponent={
+						<ArrowRightButton onClick={async () => await handleSignUp()} />
+					}
 					cardHeaderActionComponent={<GoBackButton />}>
 					<GridView>
 						<GridItem>
@@ -97,10 +109,11 @@ function Register() {
 								error={!validator.name}
 								label="Name"
 								autoFocus
+								value={userInfo.name}
 								IconComponent={<AccountIcon />}
 								onChange={e => {
 									validtion('name', e.target.value);
-									setUserInfo({ ...userInfo, username: e.target.value });
+									setUserInfo({ ...userInfo, name: e.target.value });
 								}}
 							/>
 						</GridItem>
@@ -108,6 +121,7 @@ function Register() {
 							<TextField
 								error={!validator.email}
 								label="Email"
+								value={userInfo.email}
 								IconComponent={<EmailIcon />}
 								onChange={e => {
 									validtion('email', e.target.value);
@@ -120,6 +134,7 @@ function Register() {
 								error={!validator.password}
 								type="password"
 								label="Password"
+								value={userInfo.password}
 								IconComponent={<LockIcon />}
 								onChange={e => {
 									validtion('password', e.target.value);
@@ -137,10 +152,10 @@ function Register() {
 				<Card title="Or">
 					<GridView>
 						<GridItem>
-							<FacebookLoginButton />
+							<FacebookLoginButton onClick={() => alert('Coming soon')} />
 						</GridItem>
 						<GridItem>
-							<GoogleLoginButton />
+							<GoogleLoginButton onClick={() => alert('Coming soon')} />
 						</GridItem>
 					</GridView>
 				</Card>

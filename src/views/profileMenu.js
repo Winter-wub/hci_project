@@ -36,8 +36,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function ProfileEditor() {
-	const [userInfo] = useGlobal('userInfo');
+	const [userInfo, setUserInfo] = useGlobal('userInfo');
 	const classes = useStyles();
+	const [, setIslogin] = useGlobal('isLogin');
 
 	return (
 		<GridView>
@@ -47,7 +48,7 @@ function ProfileEditor() {
 						<Toolbar>
 							<GridView direction="row" justify="flex-start">
 								<GridItem>
-									<GoBackButton />
+									<GoBackButton action={() => history.push('/')} />
 								</GridItem>
 								<GridItem>
 									<Typography variant="h6" color="inherit">
@@ -66,7 +67,7 @@ function ProfileEditor() {
 							</GridItem>
 							<GridItem>
 								<Typography variant="h5">
-									{userInfo.username}({userInfo.age})
+									{userInfo.name}({userInfo.age})
 								</Typography>
 							</GridItem>
 							<GridItem>
@@ -110,7 +111,29 @@ function ProfileEditor() {
 								<ListItemIcon>
 									<ExitToAppIcon />
 								</ListItemIcon>
-								<ListItemText primary="ออกจากระบบ" />
+								<ListItemText
+									primary="ออกจากระบบ"
+									onClick={() => {
+										setIslogin(false);
+										setUserInfo({
+											name: '',
+											username: '',
+											password: '',
+											interestSex: '',
+											university: '-',
+											phone: '',
+											display: '',
+											age: 0,
+											bio: '',
+											jobTitle: '',
+											company: '',
+											distance: 0,
+											interestAge: 0,
+											email: '',
+										});
+										history.push('/login');
+									}}
+								/>
 							</ListItem>
 						</List>
 					</Card>

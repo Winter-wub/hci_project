@@ -1,4 +1,5 @@
-import React from 'reactn';
+import React, { useGlobal } from 'reactn';
+import queryString from 'qs';
 import TextFieldWithIcon from '../components/textFieldWithIcon';
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
@@ -12,8 +13,14 @@ const useStyles = makeStyles(() => ({
 		borderRadius: '50%',
 	},
 }));
-function ProfilePreview({ match: { params } }) {
+function ProfilePreview({ location: { search } }) {
 	const classes = useStyles();
+	const [message] = useGlobal('message');
+	const qs = queryString.parse(search);
+	const id = qs['?id'];
+	console.log(message);
+	const profileIndex = message.findIndex(msn => msn.id === id);
+	const profile = message[profileIndex];
 	return (
 		<GridView>
 			<GridItem>
@@ -24,46 +31,37 @@ function ProfilePreview({ match: { params } }) {
 								<GridItem>
 									<Avatar
 										alt="Preview Display"
-										// src={userInfo.display}
+										src={profile.display}
 										className={classes.previewImage}
 									/>
 								</GridItem>
 							</GridView>
 						</GridItem>
 						<GridItem>
-							<TextFieldWithIcon
-								label="Age"
-								// value={userInfo.age}
-								disabled
-							/>
+							<TextFieldWithIcon label="Age" value={profile.age} disabled />
 						</GridItem>
 						<GridItem>
-							<TextFieldWithIcon
-								label="About me"
-								// value={userInfo.bio}
-								disabled
-							/>
+							<TextFieldWithIcon label="Bio" value={profile.bio} disabled />
 						</GridItem>
 						<GridItem>
 							<TextFieldWithIcon
 								label="Job Title"
-								// value={userInfo.jobTitle}
+								value={profile.jobTitle}
 								disabled
 							/>
 						</GridItem>
 						<GridItem>
 							<TextFieldWithIcon
 								label="Company"
-								// value={userInfo.company}
+								value={profile.company}
 								disabled
 							/>
 						</GridItem>
 						<GridItem>
-							<TextFieldWithIcon
-								label="Email"
-								// value={userInfo.company}
-								disabled
-							/>
+							<TextFieldWithIcon label="Email" value={profile.email} disabled />
+						</GridItem>
+						<GridItem>
+							<TextFieldWithIcon label="Phone" value={profile.phone} disabled />
 						</GridItem>
 					</GridView>
 				</Card>

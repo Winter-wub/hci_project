@@ -11,7 +11,9 @@ import { GridView, GridItem } from '../components/grid';
 import Card from '../components/card';
 import { ArrowRightButton } from '../components/arrow';
 import history from '../utils/history';
-
+import firebase from '../utils/firebase';
+import bcrypt from 'bcryptjs';
+const firestore = firebase.firestore();
 const useStyles = makeStyles(theme => ({
 	textField: {
 		marginLeft: theme.spacing.unit,
@@ -22,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 function Login() {
 	const classes = useStyles();
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
+	const [, setId] = useGlobal('id');
 	const [, setLogin] = useGlobal('isLogin');
 	const [validator, setValidator] = useState({
 		username: false,
@@ -47,12 +50,29 @@ function Login() {
 		}
 	};
 
-	const handleSignIn = () => {
-		if (!Object.values(validator).includes(false)) {
-			setLogin(true);
+	const handleSignIn = async () => {
+		const userRef = await firestore
+			.collection('Users')
+			.where('email', '==', userInfo.email)
+			.get();
+
+		if (userRef.size > 0 && !Object.values(validator).includes(false)) {
+			const userData = userRef.docs[0].data();
+			const result = await bcrypt.compare(userInfo.password, userData.password);
+			if (result) {
+				setLogin(true);
+				setId(userRef.docs[0].id);
+				setUserInfo({
+					...userData,
+				});
+				history.push('/');
+			} else {
+				alert('Email หรือ รหัสผ่านไม่ถูกต้อง');
+				setLogin(false);
+			}
 		} else {
 			setLogin(false);
-			alert('Email หรือ รหัสผ่านไม่ถูกต้อง');
+			alert('กรุณากรอก Email หรือ รหัสผ่านให้ถูกต้อง');
 		}
 	};
 
@@ -70,17 +90,16 @@ function Login() {
 						<GridItem>
 							<TextField
 								variant="outlined"
-								error={!validator.username}
+								error={!validator.email}
 								className={classes.textField}
 								margin="normal"
 								label="Email"
-								type="email"
 								autoFocus
-								value={userInfo.username}
+								value={userInfo.email}
 								onChange={e => {
 									setUserInfo({
 										...userInfo,
-										username: e.target.value,
+										email: e.target.value,
 									});
 									checkValidationField('email', e.target.value);
 								}}
@@ -116,10 +135,10 @@ function Login() {
 				<Card title="Or">
 					<GridView>
 						<GridItem>
-							<FacebookLoginButton />
+							<FacebookLoginButton onClick={() => alert('Coming soon')} />
 						</GridItem>
 						<GridItem>
-							<GoogleLoginButton />
+							<GoogleLoginButton onClick={() => alert('Coming soon')} />
 						</GridItem>
 						<GridItem>
 							<Button onClick={() => history.push('/signup')}>Sign Up</Button>

@@ -9,6 +9,8 @@ import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import GoBackButton from '../components/goBackButton';
 import PlaceSelect from '../components/placeSelect';
+import firebase from '../utils/firebase';
+const firestore = firebase.firestore();
 
 const useStyles = makeStyles(theme => ({
 	distance: {
@@ -18,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 function Settings() {
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
+	const [id] = useGlobal('id');
 	const [isDirty, setDirty] = useState(false);
 	const [validator, setValidator] = useState({
 		phone: false,
@@ -47,6 +50,19 @@ function Settings() {
 		}
 	};
 
+	const saveData = async () => {
+		try {
+			await firestore
+				.collection('Users')
+				.doc(id)
+				.set({
+					...userInfo,
+				});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const classes = useStyles();
 
 	return (
@@ -57,7 +73,8 @@ function Settings() {
 					cardHeaderActionComponent={
 						<GoBackButton
 							disabled={isDirty && Object.values(validator).includes(false)}
-							onChange={() => {
+							action={async () => {
+								saveData();
 								history.push('/setup');
 							}}
 						/>

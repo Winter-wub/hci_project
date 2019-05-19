@@ -6,10 +6,61 @@ import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import GoBackButton from '../components/goBackButton';
 import Avatar from '../components/avatar';
+import firebase from '../utils/firebase';
+const firestore = firebase.firestore();
+const storage = firebase.storage().ref();
 
 function ProfileEdit() {
 	const [isChangeDis, setIsChangeDis] = useState(false);
+	const [id] = useGlobal('id');
+	const [dirtyDis, setDirtyDis] = useState(false);
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
+
+	const uploadDisplay = () => {
+		return new Promise((resolve, reject) => {
+			const displayRef = storage
+				.child(id)
+				.putString(userInfo.display, 'data_url');
+
+			displayRef.on(
+				'state_changed',
+				() => {},
+				error => {
+					reject(error);
+				},
+				() => {
+					displayRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+						resolve(downloadURL);
+					});
+				},
+			);
+		});
+	};
+
+	const saveData = async () => {
+		try {
+			if (dirtyDis) {
+				const displayUrl = await uploadDisplay();
+				await firestore
+					.collection('Users')
+					.doc(id)
+					.set({
+						...userInfo,
+						display: displayUrl,
+					});
+			} else {
+				await firestore
+					.collection('Users')
+					.doc(id)
+					.set({
+						...userInfo,
+					});
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<GridView>
 			<GridItem>
@@ -17,7 +68,8 @@ function ProfileEdit() {
 					title="Edit your profile"
 					cardHeaderActionComponent={
 						<GoBackButton
-							onChange={() => {
+							action={async () => {
+								saveData();
 								history.push('/setup');
 							}}
 						/>
@@ -50,6 +102,7 @@ function ProfileEdit() {
 															display: reader.result,
 														});
 													};
+													setDirtyDis(true);
 													setIsChangeDis(false);
 												}}
 											/>
@@ -68,7 +121,10 @@ function ProfileEdit() {
 								label="Age"
 								value={userInfo.age}
 								onChange={e =>
-									setUserInfo({ ...userInfo, age: e.target.value })
+									setUserInfo({
+										...userInfo,
+										age: parseInt(e.target.value, 10),
+									})
 								}
 							/>
 						</GridItem>

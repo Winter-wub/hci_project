@@ -13,7 +13,10 @@ import history from './utils/history';
 
 setGlobal({
 	isLogin: false,
+	id: '',
 	userInfo: {
+		sex: '',
+		name: '',
 		username: '',
 		password: '',
 		interestSex: '',
@@ -26,6 +29,7 @@ setGlobal({
 		company: '',
 		distance: 5,
 		interestAge: 20,
+		email: '',
 	},
 	message: [
 		{

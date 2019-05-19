@@ -10,6 +10,11 @@ import GoBackButton from '../components/goBackButton';
 import { ArrowRightButton, ArrowLeftButton } from '../components/arrow';
 import history from '../utils/history';
 import PlaceSelect from '../components/placeSelect';
+import firebase from '../utils/firebase';
+import bcrypt from 'bcryptjs';
+
+const firestore = firebase.firestore();
+const storage = firebase.storage().ref();
 
 const useStyles = makeStyles(theme => ({
 	button: {
@@ -34,11 +39,65 @@ function Setup() {
 		display: false,
 	});
 
-	const handleUpdate = () => {
+	const uploadDisplay = () => {
+		return new Promise((resolve, reject) => {
+			const displayRef = storage
+				.child(userInfo.name)
+				.putString(userInfo.display, 'data_url');
+
+			displayRef.on(
+				'state_changed',
+				() => {},
+				error => {
+					reject(error);
+				},
+				() => {
+					displayRef.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+						resolve(downloadURL);
+					});
+				},
+			);
+		});
+	};
+
+	const saveData = async () => {
+		try {
+			const displayUrl = await uploadDisplay();
+			const salt = bcrypt.genSaltSync(8);
+			const password = bcrypt.hashSync(userInfo.password, salt);
+			await firestore.collection('Users').add({
+				...userInfo,
+				users_like: [],
+				password: password,
+				display: displayUrl,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleUpdate = async () => {
 		if (!Object.values(validator).includes(false)) {
-			history.push('/setup');
+			await saveData();
+			setUserInfo({
+				name: '',
+				username: '',
+				password: '',
+				interestSex: '',
+				university: '-',
+				phone: '',
+				display: '',
+				age: 0,
+				bio: '',
+				jobTitle: '',
+				company: '',
+				distance: 0,
+				interestAge: 0,
+				email: '',
+			});
+			history.push('/login');
 		} else {
-			alert('Email ชื่อ และรหัสผ่านไม่ถูกต้อง');
+			alert('มีข้อมูลไม่ถูกต้องกรุณาตวจสอบอีกครั้ง');
 		}
 	};
 
@@ -114,11 +173,11 @@ function Setup() {
 					<GridItem>
 						<ArrowRightButton
 							disabled={!Object.values(validator)[step]}
-							onClick={() => {
+							onClick={async () => {
 								if (step < 3) {
 									setStep(step + 1);
 								} else {
-									handleUpdate();
+									await handleUpdate();
 								}
 							}}
 						/>
@@ -139,7 +198,7 @@ function Setup() {
 						variant="contained"
 						onClick={() => {
 							validation(0, '');
-							setUserInfo({ ...userInfo, interestSex: 'female' });
+							setUserInfo({ ...userInfo, interestSex: 'female', sex: 'male' });
 						}}
 						color={userInfo.interestSex === 'female' ? 'primary' : 'secondary'}>
 						Woman
@@ -151,7 +210,7 @@ function Setup() {
 						variant="contained"
 						onClick={() => {
 							validation(0, '');
-							setUserInfo({ ...userInfo, interestSex: 'male' });
+							setUserInfo({ ...userInfo, interestSex: 'male', sex: 'female' });
 						}}
 						color={userInfo.interestSex === 'male' ? 'primary' : 'secondary'}>
 						Man
