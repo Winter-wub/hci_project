@@ -125,7 +125,6 @@ function Settings() {
 						</GridItem>
 						<GridItem>
 							<PlaceSelect
-								autoFocus
 								onChange={e => {
 									validation(2, e.target.value);
 									setUserInfo({ ...userInfo, university: e.target.value });

@@ -11,6 +11,7 @@ function TextFieldWithIcon({
 	variant = 'outlined',
 	autoFocus,
 	value,
+	disabled,
 }) {
 	return (
 		<div>
@@ -25,6 +26,7 @@ function TextFieldWithIcon({
 						type={type}
 						variant={variant}
 						value={value}
+						disabled={disabled}
 					/>
 				</Grid>
 			</Grid>

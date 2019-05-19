@@ -1,4 +1,4 @@
-import React, { useGlobal } from 'reactn';
+import React, { useGlobal, useEffect } from 'reactn';
 import { makeStyles } from '@material-ui/styles';
 import ImageGallery from 'react-image-gallery';
 import Badge from '@material-ui/core/Badge';
@@ -21,17 +21,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Main() {
+	const [message, setMessage] = useGlobal('message');
+	const [isLogin] = useGlobal('isLogin');
 	const classes = useStyles();
 	const images = [
 		{
-			original: 'http://lorempixel.com/1000/600/nature/1/',
-			thumbnail: 'http://lorempixel.com/250/150/nature/1/',
+			original: 'https://img.kpopmap.com/2018/10/3860532876.jpg',
 		},
 		{
 			original: 'http://lorempixel.com/1000/600/nature/2/',
-			thumbnail: 'http://lorempixel.com/250/150/nature/2/',
 		},
 	];
+
+	useEffect(() => {
+		if (!isLogin) {
+			// history.push('/login');
+		}
+	}, [isLogin]);
+
 	return (
 		<GridView>
 			<GridItem>
@@ -48,10 +55,12 @@ function Main() {
 										</Fab>
 									</GridItem>
 									<GridItem>
-										<Fab color="secondary">
+										<Fab
+											color="secondary"
+											onClick={() => history.push('/message')}>
 											<Badge
 												className={classes.margin}
-												badgeContent={4}
+												badgeContent={message.length}
 												color="primary">
 												<MessageIcon />
 											</Badge>
@@ -67,7 +76,7 @@ function Main() {
 					titlejustify="space-between">
 					<GridView direction="row">
 						<GridItem>
-							<Typography variant="h5"> ผู้ใช้ทดสอบ </Typography>
+							<Typography variant="h5"> Rose </Typography>
 						</GridItem>
 						<GridItem>
 							<ImageGallery

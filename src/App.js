@@ -7,6 +7,8 @@ import profileMenu from './views/profileMenu';
 import profileSettings from './views/profileEdit';
 import Settings from './views/settings';
 import Main from './views/main';
+import Message from './views/chat';
+import Profile from './views/profilePreview';
 import history from './utils/history';
 
 setGlobal({
@@ -25,6 +27,12 @@ setGlobal({
 		distance: 5,
 		interestAge: 20,
 	},
+	message: [
+		{
+			userId: '121546456',
+			name: 'wave',
+		},
+	],
 });
 
 function App() {
@@ -37,6 +45,8 @@ function App() {
 				<Route path="/edit" component={profileSettings} />
 				<Route path="/setting" component={Settings} />
 				<Route path="/" exact component={Main} />
+				<Route path="/message" component={Message} />
+				<Route path="/profile" component={Profile} />
 			</Router>
 		</Layout>
 	);

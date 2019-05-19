@@ -11,6 +11,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AssignmenIcon from '@material-ui/icons/Assignment';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
 import Typography from '@material-ui/core/Typography';
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
@@ -78,16 +80,17 @@ function ProfileEditor() {
 										<Button
 											color="primary"
 											variant="contained"
-											onClick={() => history.push('/setting')}>
-											Settings
+											onClick={() => history.push('/edit')}>
+											<PersonIcon />
+											Edit Profile
 										</Button>
 									</GridItem>
 									<GridItem>
 										<Button
 											color="primary"
 											variant="contained"
-											onClick={() => history.push('/edit')}>
-											Edit Profile
+											onClick={() => history.push('/setting')}>
+											<SettingsIcon /> Settings
 										</Button>
 									</GridItem>
 								</GridView>
