@@ -8,7 +8,6 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonIcon from '@material-ui/icons/Person';
 import MessageIcon from '@material-ui/icons/Message';
-import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
@@ -92,7 +91,6 @@ function Main() {
 						.map(doc => {
 							const data = doc.data();
 							const userid = doc.id;
-							console.log(data);
 							return {
 								...data,
 								id: userid,
@@ -100,7 +98,6 @@ function Main() {
 						})
 						.filter(doc => doc.id !== id)
 						.filter(doc => doc.users_like && !doc.users_like.includes(id));
-					console.log(mapFeed);
 					const mapMessage = res.docs
 						.map(doc => {
 							const data = doc.data();
@@ -153,12 +150,12 @@ function Main() {
 							<GridItem />
 						</GridView>
 					}
-					title="App title"
+					title="We Match"
 					titleAlignItems="center"
 					titlejustify="space-between">
 					<GridView direction="row">
 						<GridItem>
-							{!isLoad && feed.length > 0 ? (
+							{!isLoad && feed.length !== 0 ? (
 								<Swipeable
 									buttons={({ right, left }) => (
 										<div className={classes.actionsStyles}>
@@ -188,10 +185,7 @@ function Main() {
 									</div>
 								</Swipeable>
 							) : (
-								<div>
-									<CircularProgress className={classes.progress} />
-									Try to come in again
-								</div>
+								<div>Try to come in again</div>
 							)}
 						</GridItem>
 					</GridView>

@@ -31,12 +31,7 @@ setGlobal({
 		interestAge: 20,
 		email: '',
 	},
-	message: [
-		{
-			userId: '121546456',
-			name: 'wave',
-		},
-	],
+	message: [],
 });
 
 function App() {

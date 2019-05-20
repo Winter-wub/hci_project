@@ -36,7 +36,7 @@ function CardComponent({
 	return (
 		<Card className={classes.card}>
 			{disabledHeader && (
-				<AppBar position="static" color="default">
+				<AppBar position="static" color="primary">
 					<Toolbar>
 						<Grid
 							container

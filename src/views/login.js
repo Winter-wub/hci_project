@@ -3,10 +3,10 @@ import Validator from 'validator';
 import { makeStyles } from '@material-ui/styles/';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import {
-	FacebookLoginButton,
-	GoogleLoginButton,
-} from 'react-social-login-buttons';
+// import {
+// 	FacebookLoginButton,
+// 	GoogleLoginButton,
+// } from 'react-social-login-buttons';
 import { GridView, GridItem } from '../components/grid';
 import Card from '../components/card';
 import { ArrowRightButton } from '../components/arrow';
@@ -76,9 +76,9 @@ function Login() {
 		}
 	};
 
-	const handleForgetPassword = () => {
-		prompt('กรอกอีเมล์เพื่อกู็คืนรหัสผ่าน');
-	};
+	// const handleForgetPassword = () => {
+	// 	prompt('กรอกอีเมล์เพื่อกู็คืนรหัสผ่าน');
+	// };
 
 	return (
 		<GridView>
@@ -123,25 +123,30 @@ function Login() {
 								}}
 							/>
 						</GridItem>
-						<GridItem>
+						{/* <GridItem>
 							<Button onClick={() => handleForgetPassword()}>
 								Forgot Password!
 							</Button>
-						</GridItem>
+						</GridItem> */}
 					</GridView>
 				</Card>
 			</GridItem>
 			<GridItem>
-				<Card title="Or">
+				<Card title="Sign Up">
 					<GridView>
-						<GridItem>
+						{/* <GridItem>
 							<FacebookLoginButton onClick={() => alert('Coming soon')} />
 						</GridItem>
 						<GridItem>
 							<GoogleLoginButton onClick={() => alert('Coming soon')} />
-						</GridItem>
+						</GridItem> */}
 						<GridItem>
-							<Button onClick={() => history.push('/signup')}>Sign Up</Button>
+							<Button
+								color="primary"
+								variant="contained"
+								onClick={() => history.push('/signup')}>
+								Sign Up
+							</Button>
 						</GridItem>
 					</GridView>
 				</Card>

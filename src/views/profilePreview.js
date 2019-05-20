@@ -18,13 +18,12 @@ function ProfilePreview({ location: { search } }) {
 	const [message] = useGlobal('message');
 	const qs = queryString.parse(search);
 	const id = qs['?id'];
-	console.log(message);
 	const profileIndex = message.findIndex(msn => msn.id === id);
 	const profile = message[profileIndex];
 	return (
 		<GridView>
 			<GridItem>
-				<Card title="" cardHeaderActionComponent={<GoBackButton />}>
+				<Card title={profile.name} cardHeaderActionComponent={<GoBackButton />}>
 					<GridView>
 						<GridItem>
 							<GridView>

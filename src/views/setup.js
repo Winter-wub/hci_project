@@ -198,7 +198,7 @@ function Setup() {
 						variant="contained"
 						onClick={() => {
 							validation(0, '');
-							setUserInfo({ ...userInfo, interestSex: 'female', sex: 'male' });
+							setUserInfo({ ...userInfo, interestSex: 'female' });
 						}}
 						color={userInfo.interestSex === 'female' ? 'primary' : 'secondary'}>
 						Woman
@@ -210,7 +210,7 @@ function Setup() {
 						variant="contained"
 						onClick={() => {
 							validation(0, '');
-							setUserInfo({ ...userInfo, interestSex: 'male', sex: 'female' });
+							setUserInfo({ ...userInfo, interestSex: 'male' });
 						}}
 						color={userInfo.interestSex === 'male' ? 'primary' : 'secondary'}>
 						Man

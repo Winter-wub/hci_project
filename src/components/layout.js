@@ -6,7 +6,7 @@ install();
 const theme = createMuiTheme({
 	typography: { useNextVariants: true },
 	palette: {
-		primary: { main: '#FD297B' },
+		primary: { main: '#FF5864' },
 		secondary: { main: '#424242' },
 		default: { main: '#FF655B' },
 	},

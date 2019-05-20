@@ -1,23 +1,38 @@
 import React, { useGlobal, useState } from 'reactn';
 import Validator from 'validator';
-import {
-	FacebookLoginButton,
-	GoogleLoginButton,
-} from 'react-social-login-buttons';
+// import {
+// 	FacebookLoginButton,
+// 	GoogleLoginButton,
+// } from 'react-social-login-buttons';
 import AccountIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/EmailRounded';
+import CakeIcon from '@material-ui/icons/Cake';
+import Typography from '@material-ui/core/Typography';
 import LockIcon from '@material-ui/icons/Lock';
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import TextField from '../components/textFieldWithIcon';
 import { ArrowRightButton } from '../components/arrow';
-import Checkbox from '../components/checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import FilledInput from '@material-ui/core/FilledInput';
+import MenuItem from '@material-ui/core/MenuItem';
 import GoBackButton from '../components/goBackButton';
 import history from '../utils/history';
 import firebase from '../utils/firebase';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles(theme => ({
+	formControl: {
+		margin: theme.spacing.unit,
+		minWidth: 120,
+	},
+}));
 const firestore = firebase.firestore();
 
 function Register() {
+	const classes = useStyles();
 	const [userInfo, setUserInfo] = useGlobal('userInfo');
 	const [, setLogin] = useGlobal('isLogin');
 
@@ -25,6 +40,8 @@ function Register() {
 		email: false,
 		name: false,
 		password: false,
+		age: false,
+		sex: false,
 	});
 
 	const isExistsEmail = async () => {
@@ -76,7 +93,7 @@ function Register() {
 				break;
 			}
 			case 'password': {
-				if (!Validator.isEmail(value)) {
+				if (!Validator.isEmpty(value)) {
 					setValidator({
 						...validator,
 						password: true,
@@ -87,6 +104,30 @@ function Register() {
 						password: false,
 					});
 				}
+				break;
+			}
+			case 'age': {
+				if (
+					Validator.isNumeric(value) &&
+					Validator.isLength(value, { min: 18, max: 35 })
+				) {
+					setValidator({
+						...validator,
+						age: true,
+					});
+				} else {
+					setValidator({
+						...validator,
+						age: false,
+					});
+				}
+				break;
+			}
+			case 'sex': {
+				setValidator({
+					...validator,
+					sex: true,
+				});
 				break;
 			}
 			default:
@@ -143,12 +184,44 @@ function Register() {
 							/>
 						</GridItem>
 						<GridItem>
-							<Checkbox label="Agree Term of Services" />
+							<TextField
+								error={!validator.password}
+								label="Age"
+								value={userInfo.age}
+								IconComponent={<CakeIcon />}
+								onChange={e => {
+									validtion('age', e.target.value);
+									setUserInfo({ ...userInfo, age: e.target.value });
+								}}
+							/>
+							<Typography>{''}Age must be more than 18 Year Old</Typography>
+						</GridItem>
+						<GridItem>
+							<FormControl variant="filled" className={classes.formControl}>
+								<InputLabel>Sex</InputLabel>
+								<Select
+									value={userInfo.sex}
+									onChange={e => {
+										validtion('sex', e.target.value);
+										setUserInfo({ ...userInfo, sex: e.target.value });
+									}}
+									input={<FilledInput />}>
+									<MenuItem value="">
+										<em>None</em>
+									</MenuItem>
+									<MenuItem value="female">
+										<em>Female</em>
+									</MenuItem>
+									<MenuItem value="male">
+										<em>Male</em>
+									</MenuItem>
+								</Select>
+							</FormControl>
 						</GridItem>
 					</GridView>
 				</Card>
 			</GridItem>
-			<GridItem>
+			{/* <GridItem>
 				<Card title="Or">
 					<GridView>
 						<GridItem>
@@ -159,7 +232,7 @@ function Register() {
 						</GridItem>
 					</GridView>
 				</Card>
-			</GridItem>
+			</GridItem> */}
 		</GridView>
 	);
 }
