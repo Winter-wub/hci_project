@@ -107,10 +107,7 @@ function Register() {
 				break;
 			}
 			case 'age': {
-				if (
-					Validator.isNumeric(value) &&
-					Validator.isLength(value, { min: 18, max: 35 })
-				) {
+				if (value >= 18 && value <= 35) {
 					setValidator({
 						...validator,
 						age: true,
@@ -187,11 +184,15 @@ function Register() {
 							<TextField
 								error={!validator.password}
 								label="Age"
+								type="number"
 								value={userInfo.age}
 								IconComponent={<CakeIcon />}
 								onChange={e => {
 									validtion('age', e.target.value);
-									setUserInfo({ ...userInfo, age: e.target.value });
+									setUserInfo({
+										...userInfo,
+										age: parseInt(e.target.value, 10),
+									});
 								}}
 							/>
 							<Typography>{''}Age must be more than 18 Year Old</Typography>
