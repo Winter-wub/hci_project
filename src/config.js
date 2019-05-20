@@ -7,7 +7,7 @@ const config = {
 			storageBucket: 'hciproject-e2f47.appspot.com',
 		},
 	},
-	production: {
+	productions: {
 		firebase: {
 			apiKey: 'AIzaSyATX0ETeHikDleJAhir-YQ4vrS_lvJZIxc',
 			authDomain: 'hciproject-e2f47.firebaseapp.com',
@@ -16,6 +16,6 @@ const config = {
 		},
 	},
 };
-const env = window.location.href.includes('localhost') ? 'dev' : 'production';
+const env = window.location.href.includes('localhost') ? 'dev' : 'productions';
 
 export default config[env];
