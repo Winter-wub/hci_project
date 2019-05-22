@@ -6,7 +6,7 @@ import history from '../utils/history';
 function GobackButton({ disabled = false, action = () => history.goBack() }) {
 	return (
 		<IconButton disabled={disabled} onClick={action}>
-			<LeftArrowIcon />
+			<LeftArrowIcon style={{ color: 'white' }} />
 		</IconButton>
 	);
 }

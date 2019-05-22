@@ -6,7 +6,10 @@ install();
 const theme = createMuiTheme({
 	typography: { useNextVariants: true },
 	palette: {
-		primary: { main: '#FF5864' },
+		primary: {
+			main: '#ff5864',
+			mainGradient: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+		},
 		secondary: { main: '#424242' },
 		default: { main: '#FF655B' },
 	},

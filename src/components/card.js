@@ -17,6 +17,10 @@ const useStyles = makeStyles(theme => ({
 		width: '600px',
 		background: '#eeeeee',
 	},
+	AppBar: {
+		background: theme.palette.primary.mainGradient,
+		color: 'white',
+	},
 	cardActions: {
 		float: 'right',
 		padding: theme.spacing.unit * 2,
@@ -36,7 +40,7 @@ function CardComponent({
 	return (
 		<Card className={classes.card}>
 			{disabledHeader && (
-				<AppBar position="static" color="primary">
+				<AppBar position="static" className={classes.AppBar}>
 					<Toolbar>
 						<Grid
 							container

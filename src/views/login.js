@@ -12,6 +12,9 @@ import Card from '../components/card';
 import { ArrowRightButton } from '../components/arrow';
 import history from '../utils/history';
 import firebase from '../utils/firebase';
+
+import logo from '../assets/wematch.png';
+
 import bcrypt from 'bcryptjs';
 const firestore = firebase.firestore();
 const useStyles = makeStyles(theme => ({
@@ -84,6 +87,13 @@ function Login() {
 		<GridView>
 			<GridItem>
 				<Card
+					cardHeaderActionComponent={
+						<img
+							src={logo}
+							style={{ height: '100px', width: '100px' }}
+							alt="logo"
+						/>
+					}
 					title="Sign In"
 					actionComponent={<ArrowRightButton onClick={() => handleSignIn()} />}>
 					<GridView>

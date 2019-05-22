@@ -40,10 +40,11 @@ function Register() {
 		email: false,
 		name: false,
 		password: false,
-		age: false,
+		age: true,
 		sex: false,
 	});
 
+	const [dirty, setDirty] = useState(false);
 	const isExistsEmail = async () => {
 		const docs = await firestore
 			.collection('Users')
@@ -162,10 +163,12 @@ function Register() {
 								value={userInfo.email}
 								IconComponent={<EmailIcon />}
 								onChange={e => {
+									setDirty(true);
 									validtion('email', e.target.value);
 									setUserInfo({ ...userInfo, email: e.target.value });
 								}}
 							/>
+							{dirty && !validator.email && <div>Invalid Email</div>}
 						</GridItem>
 						<GridItem>
 							<TextField

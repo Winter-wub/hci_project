@@ -33,6 +33,10 @@ const useStyles = makeStyles(theme => ({
 		width: '150px',
 		borderRadius: '50%',
 	},
+	AppBar: {
+		background: theme.palette.primary.mainGradient,
+		color: 'white',
+	},
 }));
 
 function ProfileEditor() {
@@ -44,7 +48,7 @@ function ProfileEditor() {
 		<GridView>
 			<GridItem>
 				<GridView>
-					<AppBar position="static" color="default">
+					<AppBar position="static" color="default" className={classes.AppBar}>
 						<Toolbar>
 							<GridView direction="row" justify="flex-start">
 								<GridItem>

@@ -2,17 +2,20 @@ import React, { useGlobal, useEffect, useState } from 'reactn';
 import { makeStyles } from '@material-ui/styles';
 import Swipeable from 'react-swipy';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Badge from '@material-ui/core/Badge';
 import Fab from '@material-ui/core/Fab';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CloseIcon from '@material-ui/icons/Close';
 import PersonIcon from '@material-ui/icons/Person';
 import MessageIcon from '@material-ui/icons/Message';
-
 import { GridItem, GridView } from '../components/grid';
 import Card from '../components/card';
 import history from '../utils/history';
 import firebase from '../utils/firebase';
+
+import logo from '../assets/wematch.png';
+
 const firestore = firebase.firestore();
 
 const useStyles = makeStyles(theme => ({
@@ -45,7 +48,44 @@ function Main() {
 	const classes = useStyles();
 
 	const removeCard = () => {
-		setFeed(feed.slice(1, feed.length));
+		if (feed.length <= 1) {
+			setLoad(true);
+			firestore
+				.collection('Users')
+				.where('university', '==', userInfo.university)
+				.where('age', '<=', userInfo.interestAge)
+				.where('sex', '==', userInfo.interestSex)
+				.get()
+				.then(res => {
+					const mapFeed = res.docs
+						.map(doc => {
+							const data = doc.data();
+							const userid = doc.id;
+							return {
+								...data,
+								id: userid,
+							};
+						})
+						.filter(doc => doc.id !== id)
+						.filter(doc => doc.users_like && !doc.users_like.includes(id));
+					const mapMessage = res.docs
+						.map(doc => {
+							const data = doc.data();
+							const userid = doc.id;
+							return {
+								...data,
+								id: userid,
+							};
+						})
+
+						.filter(doc => doc.users_like && doc.users_like.includes(id));
+					setMessage(mapMessage);
+					setFeed(mapFeed);
+					setLoad(false);
+				});
+		} else {
+			setFeed(feed.slice(1, feed.length));
+		}
 	};
 
 	const love = async () => {
@@ -102,7 +142,6 @@ function Main() {
 						.map(doc => {
 							const data = doc.data();
 							const userid = doc.id;
-
 							return {
 								...data,
 								id: userid,
@@ -127,6 +166,13 @@ function Main() {
 							<GridItem>
 								<GridView direction="row">
 									<GridItem>
+										<img
+											src={logo}
+											style={{ height: '65px', width: '65px' }}
+											alt="logo"
+										/>
+									</GridItem>
+									<GridItem>
 										<Fab
 											color="secondary"
 											onClick={() => history.push('/setup')}>
@@ -150,7 +196,6 @@ function Main() {
 							<GridItem />
 						</GridView>
 					}
-					title="We Match"
 					titleAlignItems="center"
 					titlejustify="space-between">
 					<GridView direction="row">
@@ -185,7 +230,7 @@ function Main() {
 									</div>
 								</Swipeable>
 							) : (
-								<div>Try to come in again</div>
+								<CircularProgress className={classes.progress} />
 							)}
 						</GridItem>
 					</GridView>
